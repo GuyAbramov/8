@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title%}
+assignment8
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+<h1>Hobbies</h1>
+<h2>{{ name|upper }}</h2>
+    {% if name=='GUY ABRAMOV' %}
+    <h2>sport :{{ sport1|default('No answer' ,false )}} ,{{ sport2| safe }} <br> programming: {{prog|upper  }} ,
+    {{ prog2|lower }} <br>
+    Tv show :{% for show in shows %}
+            <li>{{ show }}</li>
+    {% endfor %}
+    </h2>
+        {% else %}
+        <h3>No information</h3>
+    {% endif %}
+
+{% endblock %}
+
+
