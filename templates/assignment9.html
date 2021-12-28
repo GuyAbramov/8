@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title%}
+assignment9
+{% endblock %}
+
+{% block body %}
+    <h1>Choose Form And Fill The Details</h1>
+    <h2>Search</h2>
+<form action='/assignment9' method="get">
+    Name:<input type="text" name="name"> <br>
+    Email:<input type="text" name="email"> <br>
+    <input type="hidden" name="is_submit" value="1">
+    <input type="submit" >    <br>
+
+
+    {% if name %}
+        <h2>We Found You !</h2>
+        <h3>Name: {{ name|upper }}</h3>
+        <h3>Email: {{ email }}</h3>
+            {% elif(users) %}
+            <h3>Available Accounts:</h3>
+                {% for user in users  %}
+                <li>{{ user }}</li>
+                {% endfor %}
+
+    {% endif %}
+</form>
+
+    <hr>
+
+    <h2>Registration</h2>
+    <form action='/assignment9' method="post">
+    {% if session.username=='' %}
+        Name:<input type="text" name="username"> <br>
+        Email:<input type="text" name="email">        <br>
+        <input type="submit" >
+         {% else  %}
+        <h3>Your Registration Succeeded  {{ session.username }}</h3>
+        {% endif %}
+    </form>
+
+
+
+
+
+{% endblock %}
