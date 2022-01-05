@@ -17,11 +17,11 @@ assignment9
         <h2>We Found You !</h2>
         <h3>Name: {{ name|upper }}</h3>
         <h3>Email: {{ email }}</h3>
-            {% elif(users) %}
-            <h3>Available Accounts:</h3>
-                {% for user in users  %}
-                <li>{{ user }}</li>
-                {% endfor %}
+                {% elif(users) %}
+                    <h3>Available Accounts:</h3>
+                      {% for user in users  %}
+                        <li>{{ user }}</li>
+                        {% endfor %}
 
     {% endif %}
 </form>
@@ -33,6 +33,7 @@ assignment9
     {% if session.username=='' %}
         Name:<input type="text" name="username"> <br>
         Email:<input type="text" name="email">        <br>
+        Password <input type="password" name="password"> <br>
         <input type="submit" >
          {% else  %}
         <h3>Your Registration Succeeded  {{ session.username }}</h3>

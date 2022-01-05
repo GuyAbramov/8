@@ -1,14 +1,15 @@
-from flask import Flask, redirect, url_for, request
+from flask import Flask, redirect, url_for, request, Blueprint
 from flask import render_template, session
+from pages.assignment10.assignment10 import assignment10
 from interact_with_DB import interact_db
 app = Flask(__name__)
+app.register_blueprint(assignment10)
 app.secret_key = '123'
+
 
 @app.route('/')
 def cv_main_page():
     return render_template('CV.html')
-
-
 
 @app.route('/about')
 def about_page():
@@ -38,11 +39,15 @@ users = {
 def search_9():
 
 
+
+
+
     if request.method == 'GET':
         if 'name' in request.args and 'email' in request.args and 'is_submit' in request.args:
             name = request.args['name']
             email = request.args['email']
             is_submit = request.args['is_submit']
+
 
 
             for value in users.values():
@@ -69,6 +74,9 @@ def logout_func():
     return render_template('assignment9.html')
 
 
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
@@ -83,5 +91,5 @@ if __name__ == '__main__':
 # def users_page():
 # query = 'select * from users':
 # users = interact_with_DB(query=query, query_type='fetch')
-
 # return render_template('users.html', users='users')
+
