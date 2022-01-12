@@ -4,13 +4,14 @@ import random
 from flask import Flask, redirect, url_for, request, Blueprint, jsonify
 from flask import render_template, session
 from mysqlx.protobuf.mysqlx_resultset_pb2 import JSON
-
+import asyncio
+import aiohttp
 from pages.assignment10.assignment10 import assignment10
 from interact_with_DB import interact_db
 app = Flask(__name__)
 app.register_blueprint(assignment10)
 app.secret_key = '123'
-
+from flask import jsonify
 
 @app.route('/')
 def cv_main_page():
@@ -106,7 +107,26 @@ def assignment11_users_def():
                 "name": user[1],
                 "email": user[2]
             })
-        return render_template('users.html', users=json.dumps(response))
+        return jsonify(users)
+
+
+
+
+
+@app.route('/db_users/<int:user_id>')
+def get_users_def(user_id):
+    query = 'select  id,name,email from users where id=%s;' % user_id
+    users = interact_db(query=query, query_type='fetch')
+    user_dict = {
+        f'id': users[0].id,
+        'name': users[0].name,
+        'email': users[0].email
+    }
+    return jsonify(user_dict)
+
+
+
+
 
 
 
