@@ -1,5 +1,10 @@
-from flask import Flask, redirect, url_for, request, Blueprint
+import json
+import requests
+import random
+from flask import Flask, redirect, url_for, request, Blueprint, jsonify
 from flask import render_template, session
+from mysqlx.protobuf.mysqlx_resultset_pb2 import JSON
+
 from pages.assignment10.assignment10 import assignment10
 from interact_with_DB import interact_db
 app = Flask(__name__)
@@ -35,10 +40,9 @@ users = {
     'GOYA': {'name': 'goya', 'email': 'g1@gmail.com'}
 }
 
+
 @app.route('/assignment9', methods=['GET','POST'])
 def search_9():
-
-
 
 
 
@@ -75,6 +79,35 @@ def logout_func():
 
 
 
+@app.route('/assignment11/outer_source')
+def assignment11_def():
+    return render_template('assignment11.html')
+
+
+
+
+@app.route('/assignment11/outer_source/json')
+def assignment11_def_json():
+    number = request.args['number']
+    res = requests.get("https://reqres.in/api/users/{}".format(number))
+    response = jsonify(res.json())
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+@app.route('/assignment11/users')
+def assignment11_users_def():
+        query = 'select  id,name,email from users;'
+        users = interact_db(query=query, query_type='fetch')
+        response = []
+        for user in users:
+            response.append({
+                "id": user[0],
+                "name": user[1],
+                "email": user[2]
+            })
+        return render_template('users.html', users=json.dumps(response))
+
 
 
 if __name__ == '__main__':
@@ -82,14 +115,4 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
-
-# @app.route('/users')
-# def users_page():
-# query = 'select * from users':
-# users = interact_with_DB(query=query, query_type='fetch')
-# return render_template('users.html', users='users')
 
