@@ -108,6 +108,7 @@ def assignment11_users_def():
                 "email": user[2]
             })
         return jsonify(users)
+        #return render_template('users.html', users=json.dumps(response))
 
 
 
